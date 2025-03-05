@@ -33,7 +33,8 @@ export default (config = {}) => {
   events.forEach((event) => {
     CUSTOM_EVENTS[event] = `twowaydatabinding:${event}`;
   });
-  const dataModel = { ...config.dataModel };
+
+  const dataModel = config.dataModel || {};
   let _proxy;
 
   /**
