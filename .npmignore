@@ -1,6 +1,4 @@
 .editorconfig
-.eslintrc
-.eslintrc.json
 .git
 .github
 .nyc_output
