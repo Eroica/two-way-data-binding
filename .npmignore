@@ -9,7 +9,6 @@
 .releaserc
 **/.git/
 **/node_modules/
-/.husky
 /.vscode
 /coverage
 /demos
