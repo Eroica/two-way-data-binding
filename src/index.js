@@ -12,7 +12,6 @@ import {
  * @param {object} [config.dataModel]
  * @param {string[]} [config.events]
  * @param {string} [config.pathDelimiter]
- * @param {function(prop: any,value: any)} [config.setCustomValueCallback]
  * @return {any}
  */
 export default (config = {}) => {
