@@ -124,9 +124,7 @@ export default (config = {}) => {
    * dataModel after appending DOM references:
    * { foo: { $bar: HTMLElement, bar: 'bar' } }
    */
-  function setDOMRefsInDataModel() {
-    const $refs = Array.from($context.querySelectorAll(`[${attributeBind}]`));
-
+  function setDOMRefsInDataModel($refs) {
     for (let i = 0, len = $refs.length; i < len; i += 1) {
       const $ref = $refs[i];
       const propPathString = $ref.getAttribute(attributeBind);
@@ -291,6 +289,7 @@ export default (config = {}) => {
   }
 
   function init() {
+    const $refs = Array.from($context.querySelectorAll(`[${attributeBind}]`));
     const proxyHandler = {
       get: (data, prop) => {
         if (typeof data[prop] === `object` && data[prop] !== null && !isHTMLElement(data[prop])) {
@@ -321,7 +320,7 @@ export default (config = {}) => {
       }
     };
 
-    setDOMRefsInDataModel();
+    setDOMRefsInDataModel($refs);
     iterateDataModelAndUpdateDOM(dataModel);
     addEventListeners();
     _proxy = new Proxy(dataModel, proxyHandler);
