@@ -290,6 +290,7 @@ export default (config = {}) => {
 
   function init() {
     const $refs = Array.from($context.querySelectorAll(`[${attributeBind}]`));
+    const observedKeys = $refs.map((r) => r.getAttribute(attributeBind));
     const proxyHandler = {
       get: (data, prop) => {
         if (typeof data[prop] === `object` && data[prop] !== null && !isHTMLElement(data[prop])) {
@@ -299,6 +300,9 @@ export default (config = {}) => {
         return data[prop];
       },
       set: (data, prop, value) => {
+        /* Keep old values in case setter manipulated other attributes */
+        const oldValues = Object.fromEntries(observedKeys.map((k) => [k, data[k]]));
+
         if (isObject(value)) {
           data[prop] = { ...data[prop], ...value };
         } else {
@@ -315,6 +319,14 @@ export default (config = {}) => {
          */
 
         updateDOM(data[`${domRefPrefix}${prop}`], value);
+
+        /* Diff with modified attributes */
+        const newValues = Object.fromEntries(observedKeys.map((k) => [k, data[k]]));
+        for (const [k, v] of Object.entries(newValues)) {
+          if (k !== prop && v !== oldValues[k]) {
+            updateDOM(data[`${domRefPrefix}${k}`], v);
+          }
+        }
 
         return true;
       }
