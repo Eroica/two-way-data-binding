@@ -318,7 +318,7 @@ export default (config = {}) => {
          * contains the HTML reference where to print 'value'
          */
 
-        updateDOM(data[`${domRefPrefix}${prop}`], value);
+        updateDOM(data[`${domRefPrefix}${prop}`], data[prop]);
 
         /* Diff with modified attributes */
         const newValues = Object.fromEntries(observedKeys.map((k) => [k, data[k]]));
